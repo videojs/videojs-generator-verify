@@ -36,7 +36,6 @@ const runEsCheck = function(cwd) {
   }
 
   return promiseSpawn(esCheck, ['es5', '--verbose', 'true'].concat(es5Patterns), {cwd}).then(function(result) {
-    // remove tmp file
     shell.rm('-f', tempFile);
 
     if (result.status === 0) {
@@ -44,6 +43,10 @@ const runEsCheck = function(cwd) {
     }
 
     return Promise.resolve({status: 1, text: `${text} error:\n${result.out.trim()}`});
+  }).catch(function(e) {
+    // remove tmp file
+    shell.rm('-f', tempFile);
+    return Promise.reject(e);
   });
 };
 

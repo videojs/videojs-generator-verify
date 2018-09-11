@@ -31,15 +31,21 @@ const verify = function(options) {
       return resolve(1);
     }
 
-    return resolve(Promise.all([
+    const promises = [
       pkgCanInstall(options.dir).then(useResult),
-      esCheck(options.dir).then(useResult),
       pkgOk(options.dir).then(useResult)
-    ]));
+    ];
+
+    if (!options.skipEsCheck) {
+      promises.push(esCheck(options.dir).then(useResult));
+    }
+
+    return resolve(Promise.all(promises));
   }).then(function(results) {
     return Promise.resolve(exitCode);
   }).catch(function(e) {
-    console.error('vjsverify: An internal error occurred', e);
+    error('vjsverify: An internal error occurred', e);
+    return Promise.resolve(1);
   });
 };
 

@@ -6,12 +6,14 @@ const pkg = require('../package.json');
 
 const options = {
   verbose: false,
+  quiet: false,
+  skipEsCheck: false,
   dir: process.cwd()
 };
 
 const printHelp = function() {
   console.log();
-  console.log('  Usage: vjsverify [--force|--verbose]');
+  console.log('  Usage: vjsverify [--verbose|--quiet|--skip-es-check]');
   console.log();
   console.log(`  ${pkg.description}`);
   console.log();
@@ -19,6 +21,7 @@ const printHelp = function() {
   console.log('  -V, --verbose       Print all results, even successful ones.');
   console.log('  -q, --quiet         Don\'t print anything.');
   console.log('  -d, --dir [dir]     Run in this project directory, defaults to cwd.');
+  console.log('  --skip-es-check     Do not run es check on dist, for projects with no dist.');
   console.log();
 };
 
@@ -34,6 +37,8 @@ for (let i = 0; i < process.argv.length; i++) {
     options.verbose = true;
   } else if ((/^-q|--quiet$/).test(process.argv[i])) {
     options.quiet = true;
+  } else if ((/^--skip-es-check$/).test(process.argv[i])) {
+    options.skipEsCheck = true;
   } else if ((/^-d|--dir$/).test(process.argv[i])) {
     i++;
     options.dir = process.argv[i];
