@@ -13,9 +13,17 @@ Maintenance Status: Stable
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 
+
 - [Installation](#installation)
-- [Inclusion](#inclusion)
-- [Basic Usage](#basic-usage)
+- [Usage](#usage)
+  - [Command line](#command-line)
+  - [API](#api)
+    - [Options](#options)
+      - [`verbose`](#verbose)
+      - [`quiet`](#quiet)
+      - [`dir`](#dir)
+      - [`skipEsCheck`](#skipescheck)
+- [What is tested](#what-is-tested)
 - [License](#license)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
