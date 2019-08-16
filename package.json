@@ -15,11 +15,11 @@
   "author": "Brandon Casey <brandonocasey@gmail.com>",
   "license": "Apache-2.0",
   "dependencies": {
-    "colorette": "^1.0.1",
+    "colorette": "^1.1.0",
     "es-check": "^5.0.0",
-    "pkg-can-install": "^1.0.3",
-    "pkg-ok": "^2.2.0",
-    "shelljs": "^0.8.2"
+    "pkg-can-install": "^1.0.4",
+    "pkg-ok": "^2.3.1",
+    "shelljs": "^0.8.3"
   },
   "scripts": {
     "lint": "vjsstandard",
@@ -38,7 +38,7 @@
       "git add"
     ],
     "README.md": [
-      "doctoc",
+      "doctoc --notitle",
       "git add"
     ]
   },
@@ -48,10 +48,9 @@
     ]
   },
   "devDependencies": {
-    "@videojs/generator-helpers": "^1.0.0",
-    "ava": "^1.0.0-beta.8",
-    "uuid": "^3.3.2",
-    "videojs-standard": "^8.0.2"
+    "@videojs/generator-helpers": "~1.2.0",
+    "ava": "^2.3.0",
+    "videojs-standard": "^8.0.3"
   },
   "husky": {
     "hooks": {
