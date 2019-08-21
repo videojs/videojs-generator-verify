@@ -42,6 +42,9 @@
       "git add"
     ]
   },
+  "files": [
+    "src"
+  ],
   "vjsstandard": {
     "ignore": [
       "test/fixture"
