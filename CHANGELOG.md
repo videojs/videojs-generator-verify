@@ -1,3 +1,15 @@
+<a name="2.0.0"></a>
+# [2.0.0](https://github.com/videojs/videojs-generator-verify/compare/v1.2.0...v2.0.0) (2019-08-21)
+
+### Bug Fixes
+
+* **BREAKING:** use npm pack --json to select files ([#3](https://github.com/videojs/videojs-generator-verify/issues/3)) ([4673ed4](https://github.com/videojs/videojs-generator-verify/commit/4673ed4))
+* **security:** fix security issues by updating package-lock.json ([e6cf114](https://github.com/videojs/videojs-generator-verify/commit/e6cf114))
+
+### Chores
+
+* **package:** switch to [@videojs](https://github.com/videojs)/generator-helpers ([4bf26b8](https://github.com/videojs/videojs-generator-verify/commit/4bf26b8))
+
 <a name="1.2.0"></a>
 # [1.2.0](https://github.com/videojs/videojs-generator-verify/compare/v1.1.0...v1.2.0) (2018-11-26)
 
