@@ -2,18 +2,15 @@
 const path = require('path');
 const colorette = require('colorette');
 const fs = require('fs');
-const shell = require('shelljs');
-const crypto = require('crypto');
+const clonePkg = require('./clone-npm-pkg.js');
+const tests = require('./tests');
 
-const pkgOk = require('./pkg-ok.js');
-const esCheck = require('./es-check.js');
-const pkgCanInstall = require('./pkg-can-install.js');
-const promiseSpawn = require('./promise-spawn.js');
-
-const os = require('os');
 const CHECK_MARK = colorette.green('✔');
 const CROSS_MARK = colorette.red('✘');
 const SKIP_MARK = colorette.yellow('→');
+
+const generateSkip = (info) => Promise.resolve({result: 'skip', info});
+const generateFail = (info) => Promise.resolve({result: 'fail', info});
 
 const verify = function(options) {
   const log = (...args) => options.verbose && !options.quiet && console.log.apply(null, args);
@@ -24,59 +21,44 @@ const verify = function(options) {
     return Promise.resolve(1);
   }
 
-  let exitCode = 0;
+  const logResult = (promise, name, text) => promise.then((retval) => {
+    // default to failure
+    let symbol = CROSS_MARK;
+    let logFn = error;
+    const {result, info} = retval;
 
-  const useResult = function(result) {
-    if (result.status !== 0) {
-      exitCode = 1;
-      error(`${CROSS_MARK} - ${result.text}`);
-    } else {
-      log(`${CHECK_MARK} - ${result.text}`);
-    }
-  };
-
-  const WORKING_DIR = path.join(os.tmpdir(), crypto.randomBytes(20).toString('hex'));
-
-  shell.mkdir('-p', WORKING_DIR);
-
-  return Promise.resolve().then(function() {
-    return promiseSpawn('npm', ['pack', '--json', '--dry-run'], {cwd: options.dir});
-  }).then(function(result) {
-    if (result.status !== 0) {
-      error('npm pack failed!', result.out);
-      return Promise.resolve(1);
+    if (result === 'pass') {
+      symbol = CHECK_MARK;
+      logFn = log;
+    } else if (result === 'skip') {
+      symbol = SKIP_MARK;
+      logFn = log;
     }
 
-    const packOutput = JSON.parse(result.stdout);
+    logFn(`${symbol} ${name}: ${text} ${info || ''}`);
 
-    return Promise.all(packOutput.map((output) => {
-      return Promise.all(output.files.map((file) => Promise.resolve().then(function() {
-        const dirname = path.dirname(file.path);
+    return Promise.resolve(retval);
+  });
 
-        if (dirname) {
-          shell.mkdir('-p', path.join(WORKING_DIR, dirname));
-        }
+  return logResult(clonePkg(options.dir), 'package', 'npm pack on publish will succeed').then(function({result, dir}) {
+    const promises = Object.keys(tests).map(function(key) {
+      let {text, fn} = tests[key];
 
-        shell.cp(file.path, path.join(WORKING_DIR, file.path));
+      // without a working cloned directory everything fails
+      if (result !== 'pass') {
+        fn = () => generateFail('npm pack failed');
+      }
 
-        return Promise.resolve();
-      })));
-    }));
-  }).then(function() {
-    const promises = [
-      pkgCanInstall(WORKING_DIR).then(useResult),
-      pkgOk(WORKING_DIR).then(useResult)
-    ];
+      if (options.skip && options.skip.indexOf(key) !== -1) {
+        fn = () => generateSkip('skipped by options');
+      }
 
-    if (!options.skipEsCheck) {
-      promises.push(esCheck(WORKING_DIR).then(useResult));
-    } else {
-      log(`${SKIP_MARK} - ${esCheck.text}`);
-    }
+      return logResult(fn(dir), key, text);
+    });
 
     return Promise.all(promises);
   }).then(function(results) {
-    return Promise.resolve(exitCode);
+    return Promise.resolve(!results.some((r) => r.result === 'fail') ? 0 : 1);
   }).catch(function(e) {
     error('vjsverify: An internal error occurred', e);
     return Promise.resolve(1);

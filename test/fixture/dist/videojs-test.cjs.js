@@ -1,19 +1,17 @@
-/* ! @name videojs-test @version 1.0.0 @license Apache-2.0 */
+/*! @name videojs-manual-test @version 0.0.0 @license MIT */
 'use strict';
 
-function _interopDefault(ex) { return (ex && (typeof ex === 'object') && 'default' in ex) ? ex['default'] : ex; }
+var _inheritsLoose = require('@babel/runtime/helpers/inheritsLoose');
+var videojs = require('video.js');
 
-var videojs = _interopDefault(require('video.js'));
+function _interopDefaultLegacy (e) { return e && typeof e === 'object' && 'default' in e ? e : { 'default': e }; }
 
-function _inheritsLoose(subClass, superClass) {
-  subClass.prototype = Object.create(superClass.prototype);
-  subClass.prototype.constructor = subClass;
-  subClass.__proto__ = superClass;
-}
+var _inheritsLoose__default = /*#__PURE__*/_interopDefaultLegacy(_inheritsLoose);
+var videojs__default = /*#__PURE__*/_interopDefaultLegacy(videojs);
 
-var version = '1.0.0';
+var version = "0.0.0";
 
-var Plugin = videojs.getPlugin('plugin'); // Default options for the plugin.
+var Plugin = videojs__default['default'].getPlugin('plugin'); // Default options for the plugin.
 
 var defaults = {};
 /**
@@ -22,13 +20,11 @@ var defaults = {};
  * See: https://blog.videojs.com/feature-spotlight-advanced-plugins/
  */
 
-var Test =
-/* #__PURE__*/
-function(_Plugin) {
-  _inheritsLoose(Test, _Plugin);
+var ManualTest = /*#__PURE__*/function (_Plugin) {
+  _inheritsLoose__default['default'](ManualTest, _Plugin);
 
   /**
-   * Create a Test plugin instance.
+   * Create a ManualTest plugin instance.
    *
    * @param  {Player} player
    *         A Video.js Player instance.
@@ -40,27 +36,28 @@ function(_Plugin) {
    *         second argument of options is a convenient way to accept inputs
    *         from your plugin's caller.
    */
-  function Test(player, options) {
+  function ManualTest(player, options) {
     var _this;
 
     // the parent class will add player under this.player
     _this = _Plugin.call(this, player) || this;
-    _this.options = videojs.mergeOptions(defaults, options);
+    _this.options = videojs__default['default'].mergeOptions(defaults, options);
 
-    _this.player.ready(function() {
-      _this.player.addClass('vjs-test');
+    _this.player.ready(function () {
+      _this.player.addClass('vjs-manual-test');
     });
 
     return _this;
   }
 
-  return Test;
+  return ManualTest;
 }(Plugin); // Define default values for the plugin's `state` object here.
 
-Test.defaultState = {}; // Include the version number.
 
-Test.VERSION = version; // Register the plugin with video.js.
+ManualTest.defaultState = {}; // Include the version number.
 
-videojs.registerPlugin('test', Test);
+ManualTest.VERSION = version; // Register the plugin with video.js.
 
-module.exports = Test;
+videojs__default['default'].registerPlugin('manualTest', ManualTest);
+
+module.exports = ManualTest;

@@ -57,6 +57,23 @@ test('succeeds if dists have wrong syntax but --skip-es-check is passed', (t) =>
   });
 });
 
+test('succeeds if dists have wrong syntax but --skip-syntax is passed', (t) => {
+  // copy es6 source to dist
+  shell.cp('-f', path.join(t.context.dir, 'es6.js'), path.join(t.context.dir, 'dist', 'videojs-test.js'));
+
+  return promiseSpawn(vjsverify, ['--skip-syntax'], {cwd: t.context.dir}).then(function(result) {
+    t.is(result.status, 0, 'returns success');
+    t.is(result.out.trim().length, 0, 'no output on success');
+  });
+});
+
+test('fails if passed invalid skip', (t) => {
+  return promiseSpawn(vjsverify, ['--skip-foo'], {cwd: t.context.dir}).then(function(result) {
+    t.is(result.status, 1, 'returns failure');
+    t.true(result.out.trim().length > 0, 'output on failure');
+  });
+});
+
 test('fails if pkg.json fields point to missing files', (t) => {
   const pkgPath = path.join(t.context.dir, 'package.json');
 
@@ -83,6 +100,36 @@ test('fails if there are no dists', (t) => {
 test('fails if any dists have wrong syntax', (t) => {
   // copy es6 source to dist
   shell.cp('-f', path.join(t.context.dir, 'es6.js'), path.join(t.context.dir, 'dist', 'videojs-test.js'));
+
+  return promiseSpawn(vjsverify, [], {cwd: t.context.dir}).then(function(result) {
+    t.is(result.status, 1, 'returns failure');
+    t.true(result.out.trim().length > 0, 'output on failure');
+  });
+});
+
+test('fails if any bins have wrong syntax', (t) => {
+  // copy es6 source to dist
+  shell.cp('-f', path.join(t.context.dir, 'es6.js'), path.join(t.context.dir, 'foo.js'));
+
+  return promiseSpawn(vjsverify, [], {cwd: t.context.dir}).then(function(result) {
+    t.is(result.status, 1, 'returns failure');
+    t.true(result.out.trim().length > 0, 'output on failure');
+  });
+});
+
+test('fails if es dists have wrong syntax', (t) => {
+  // copy es6 source to dist
+  shell.cp('-f', path.join(t.context.dir, 'es6.js'), path.join(t.context.dir, 'dist', 'es', 'foo.js'));
+
+  return promiseSpawn(vjsverify, [], {cwd: t.context.dir}).then(function(result) {
+    t.is(result.status, 1, 'returns failure');
+    t.true(result.out.trim().length > 0, 'output on failure');
+  });
+});
+
+test('fails if cjs dists have wrong syntax', (t) => {
+  // copy es6 source to dist
+  shell.cp('-f', path.join(t.context.dir, 'es6.js'), path.join(t.context.dir, 'dist', 'cjs', 'foo.js'));
 
   return promiseSpawn(vjsverify, [], {cwd: t.context.dir}).then(function(result) {
     t.is(result.status, 1, 'returns failure');

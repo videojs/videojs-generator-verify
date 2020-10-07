@@ -1,10 +1,9 @@
-const childProcess = require('child_process');
+const spawn = require('child_process').spawn;
+const exitHook = require('exit-hook');
 
 const promiseSpawn = function(bin, args, options = {}) {
-  process.setMaxListeners(1000);
-
   return new Promise((resolve, reject) => {
-    const child = childProcess.spawn(bin, args, options);
+    const child = spawn(bin, args, options);
 
     let stdout = '';
     let stderr = '';
@@ -20,18 +19,17 @@ const promiseSpawn = function(bin, args, options = {}) {
       out += chunk;
     });
 
-    const kill = () => child.kill();
+    const removeHook = exitHook(() => child.kill());
 
-    process.on('SIGINT', kill);
-    process.on('SIGQUIT', kill);
-    process.on('exit', kill);
-
-    child.on('close', (status) => resolve({
-      status,
-      out: out.toString(),
-      stderr: stderr.toString(),
-      stdout: stdout.toString()
-    }));
+    child.on('exit', function(status) {
+      removeHook();
+      resolve({
+        status,
+        out: out.toString().trim(),
+        stderr: stderr.toString().trim(),
+        stdout: stdout.toString().trim()
+      });
+    });
   });
 };
 

@@ -1,9 +1,6 @@
-/*! @name videojs-manual-test @version 0.0.0 @license MIT */
-import _inheritsLoose from '@babel/runtime/helpers/inheritsLoose';
+import _inheritsLoose from "@babel/runtime/helpers/inheritsLoose";
 import videojs from 'video.js';
-
-var version = "0.0.0";
-
+import { version as VERSION } from '../package.json';
 var Plugin = videojs.getPlugin('plugin'); // Default options for the plugin.
 
 var defaults = {};
@@ -49,8 +46,7 @@ var ManualTest = /*#__PURE__*/function (_Plugin) {
 
 ManualTest.defaultState = {}; // Include the version number.
 
-ManualTest.VERSION = version; // Register the plugin with video.js.
+ManualTest.VERSION = VERSION; // Register the plugin with video.js.
 
 videojs.registerPlugin('manualTest', ManualTest);
-
 export default ManualTest;

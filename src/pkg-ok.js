@@ -1,20 +1,14 @@
 const pkgOk = require('pkg-ok');
 
-const text = 'All package.json fields exist';
-
-/* a small wrapper around pkg ok to make it a promise */
-const runPkgOk = function(cwd) {
-
+const run = function(cwd) {
   return new Promise(function(resolve, reject) {
     try {
       pkgOk(cwd);
-      resolve({status: 0, text});
+      resolve({result: 'pass'});
     } catch (e) {
-      resolve({status: 1, text: `${text} error:\n${e.message}`});
+      resolve({result: 'fail', info: e});
     }
   });
 };
 
-runPkgOk.text = text;
-
-module.exports = runPkgOk;
+module.exports = run;

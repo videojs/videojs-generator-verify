@@ -1,18 +1,13 @@
-const promiseSpawn = require('./promise-spawn');
+const pkgCanInstall = require.resolve('pkg-can-install');
+const promiseSpawn = require('./promise-spawn.js');
 
-const text = 'Package can be installed after publish';
-
-const runPkgCanInstall = function(cwd) {
-  const pkgCanInstall = require.resolve('pkg-can-install');
-
-  return promiseSpawn(pkgCanInstall, [], {cwd}).then(function(result) {
-    if (result.status === 0) {
-      return Promise.resolve({status: 0, text});
+const run = function(cwd) {
+  return promiseSpawn(pkgCanInstall, [], {cwd}).then((result) => {
+    if (result.status !== 0) {
+      return Promise.resolve({result: 'fail', info: `\n${result.out}`});
     }
-    return Promise.resolve({status: 1, text: `${text} error:\n${result.stderr.trim()}`});
+    return Promise.resolve({result: 'pass'});
   });
 };
 
-runPkgCanInstall.text = text;
-
-module.exports = runPkgCanInstall;
+module.exports = run;
