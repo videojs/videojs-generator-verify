@@ -4,6 +4,7 @@
   "description": "",
   "main": "dist/videojs-test.cjs.js",
   "module": "dist/videojs-test.es.js",
+  "browser": "dist/videojs-test.js",
   "scripts": {
     "verify": "vjsverify"
   },

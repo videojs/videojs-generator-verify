@@ -110,18 +110,18 @@ const gatherFiles = function(cwd) {
     });
   });
 };
-const runEsCheck = function(cwd) {
-  return gatherFiles(cwd).then(function(files) {
+const runEsCheck = function(tempdir, pkg) {
+  return gatherFiles(tempdir).then(function(files) {
     if (!files.length) {
       return Promise.resolve({result: 'fail', info: 'did not find any files to check'});
     }
-    return promiseSpawn(esCheck, ['es5', '--verbose', '--module', '--allow-hash-bang'].concat(files), {cwd});
+    return promiseSpawn(esCheck, ['es5', '--verbose', '--module', '--allow-hash-bang'].concat(files), {cwd: tempdir});
   }).then(function(result) {
     if (result.status === 0) {
       return Promise.resolve({result: 'pass'});
     }
 
-    return Promise.resolve({result: 'fail', info: `\n${result.out}`});
+    return Promise.resolve({result: 'fail', info: `\n${result.out}`.split(tempdir).join('')});
   });
 };
 

@@ -1,19 +1,12 @@
 "use strict";
 
-var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefault");
-
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = void 0;
 
-var _inheritsLoose2 = _interopRequireDefault(require("@babel/runtime/helpers/inheritsLoose"));
-
-var _video = _interopRequireDefault(require("video.js"));
 
 var _package = require("../package.json");
-
-var Plugin = _video.default.getPlugin('plugin'); // Default options for the plugin.
 
 
 var defaults = {};
@@ -24,7 +17,6 @@ var defaults = {};
  */
 
 var ManualTest = /*#__PURE__*/function (_Plugin) {
-  (0, _inheritsLoose2.default)(ManualTest, _Plugin);
 
   /**
    * Create a ManualTest plugin instance.
@@ -60,8 +52,6 @@ var ManualTest = /*#__PURE__*/function (_Plugin) {
 ManualTest.defaultState = {}; // Include the version number.
 
 ManualTest.VERSION = _package.version; // Register the plugin with video.js.
-
-_video.default.registerPlugin('manualTest', ManualTest);
 
 var _default = ManualTest;
 exports.default = _default;

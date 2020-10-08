@@ -40,7 +40,7 @@ const verify = function(options) {
     return Promise.resolve(retval);
   });
 
-  return logResult(clonePkg(options.dir), 'package', 'npm pack on publish will succeed').then(function({result, dir}) {
+  return logResult(clonePkg(options.dir), 'package', 'npm pack on publish will succeed').then(function({result, tempdir}) {
     const pkg = JSON.parse(fs.readFileSync(path.join(options.dir, 'package.json')));
     const promises = Object.keys(tests).map(function(key) {
       let {text, fn} = tests[key];
@@ -54,7 +54,7 @@ const verify = function(options) {
         fn = () => generateSkip('skipped by options');
       }
 
-      return logResult(fn(dir, pkg), key, text);
+      return logResult(fn(tempdir, pkg), key, text);
     });
 
     return Promise.all(promises);

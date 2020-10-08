@@ -5,14 +5,14 @@ const shell = require('shelljs');
 const promiseSpawn = require('./promise-spawn.js');
 const exitHook = require('exit-hook');
 
-const run = function(cwd) {
-  const WORKING_DIR = path.join(os.tmpdir(), crypto.randomBytes(20).toString('hex'));
+const run = function(origdir) {
+  const tempdir = path.join(os.tmpdir(), crypto.randomBytes(20).toString('hex'));
 
-  exitHook(() => shell.rm('-rf', WORKING_DIR));
+  exitHook(() => shell.rm('-rf', tempdir));
 
-  shell.mkdir('-p', WORKING_DIR);
+  shell.mkdir('-p', tempdir);
 
-  return promiseSpawn('npm', ['pack', '--json', '--dry-run'], {cwd}).then(function(result) {
+  return promiseSpawn('npm', ['pack', '--json', '--dry-run'], {cwd: origdir}).then(function(result) {
     if (result.status !== 0) {
       return Promise.resolve({result: 'fail', info: `\n${result.out}`});
     }
@@ -23,13 +23,13 @@ const run = function(cwd) {
         const dirname = path.dirname(file.path);
 
         if (dirname) {
-          shell.mkdir('-p', path.join(WORKING_DIR, dirname));
+          shell.mkdir('-p', path.join(tempdir, dirname));
         }
 
-        shell.cp(file.path, path.join(WORKING_DIR, file.path));
+        shell.cp(path.join(origdir, file.path), path.join(tempdir, file.path));
       })));
     })).then(() => {
-      return Promise.resolve({result: 'pass', dir: WORKING_DIR});
+      return Promise.resolve({result: 'pass', tempdir});
     });
   });
 };

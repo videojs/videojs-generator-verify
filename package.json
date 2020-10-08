@@ -27,7 +27,7 @@
     "pretest": "npm run lint",
     "test": "npm run test:unit && npm run test:verify",
     "test:unit": "ava test/index.test.js",
-    "test:verify": "./src/cli.js --skip-es-check --verbose",
+    "test:verify": "./src/cli.js --skip-syntax --verbose",
     "preversion": "npm test",
     "version": "is-prerelease || npm run update-changelog && git add CHANGELOG.md",
     "update-changelog": "conventional-changelog -p videojs -i CHANGELOG.md -s",
