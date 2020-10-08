@@ -1,6 +1,7 @@
 const pkgOk = require('./pkg-ok.js');
 const esCheck = require('./es-check.js');
 const pkgCanInstall = require('./pkg-can-install.js');
+const canRequire = require('./can-require');
 
 const tests = {
   install: {
@@ -14,6 +15,10 @@ const tests = {
   fields: {
     text: 'All package.json fields exist',
     fn: pkgOk
+  },
+  require: {
+    text: 'Can require using nodejs',
+    fn: canRequire
   }
 };
 

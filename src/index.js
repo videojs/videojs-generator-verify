@@ -41,6 +41,7 @@ const verify = function(options) {
   });
 
   return logResult(clonePkg(options.dir), 'package', 'npm pack on publish will succeed').then(function({result, dir}) {
+    const pkg = JSON.parse(fs.readFileSync(path.join(options.dir, 'package.json')));
     const promises = Object.keys(tests).map(function(key) {
       let {text, fn} = tests[key];
 
@@ -53,7 +54,7 @@ const verify = function(options) {
         fn = () => generateSkip('skipped by options');
       }
 
-      return logResult(fn(dir), key, text);
+      return logResult(fn(dir, pkg), key, text);
     });
 
     return Promise.all(promises);
