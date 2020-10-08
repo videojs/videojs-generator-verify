@@ -6,7 +6,7 @@ const run = function(cwd) {
       pkgOk(cwd);
       resolve({result: 'pass'});
     } catch (e) {
-      resolve({result: 'fail', info: e});
+      resolve({result: 'fail', info: `\n${e}\n Is the file in pkg.json files list?`});
     }
   });
 };
