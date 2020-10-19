@@ -3,11 +3,11 @@
 
 const verify = require('./index.js');
 const pkg = require('../package.json');
+const testNames = Object.keys(require('./tests.js'));
 
 const options = {
   verbose: false,
   quiet: false,
-  skipEsCheck: false,
   dir: process.cwd()
 };
 
@@ -21,7 +21,8 @@ const printHelp = function() {
   console.log('  -V, --verbose       Print all results, even successful ones.');
   console.log('  -q, --quiet         Don\'t print anything.');
   console.log('  -d, --dir [dir]     Run in this project directory, defaults to cwd.');
-  console.log('  --skip-es-check     Do not run es check on dist, for projects with no dist.');
+  console.log('  --skip-es-check     skip the syntax check, still here for backwards compatablity');
+  console.log(`  --skip-[name]       skip a test that you do not want to run. ${testNames.join(', ')}`);
   console.log();
 };
 
@@ -38,7 +39,18 @@ for (let i = 0; i < process.argv.length; i++) {
   } else if ((/^-q|--quiet$/).test(process.argv[i])) {
     options.quiet = true;
   } else if ((/^--skip-es-check$/).test(process.argv[i])) {
-    options.skipEsCheck = true;
+    options.skip = options.skip || [];
+    options.skip.push('syntax');
+  } else if ((/^--skip-/).test(process.argv[i])) {
+    const testName = process.argv[i].replace('--skip-', '');
+
+    if (testNames.indexOf(testName) === -1) {
+      console.error(`${testName} is not a valid test to skip!`);
+      process.exit(1);
+    }
+
+    options.skip = options.skip || [];
+    options.skip.push(testName);
   } else if ((/^-d|--dir$/).test(process.argv[i])) {
     i++;
     options.dir = process.argv[i];

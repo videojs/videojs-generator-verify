@@ -1,15 +1,7 @@
-/* ! @name videojs-test @version 1.0.0 @license Apache-2.0 */
-import videojs from 'video.js';
+/*! @name videojs-manual-test @version 0.0.0 @license MIT */
+var version = "0.0.0";
 
-function _inheritsLoose(subClass, superClass) {
-  subClass.prototype = Object.create(superClass.prototype);
-  subClass.prototype.constructor = subClass;
-  subClass.__proto__ = superClass;
-}
-
-var version = '1.0.0';
-
-var Plugin = videojs.getPlugin('plugin'); // Default options for the plugin.
+var Plugin = {}; // Default options for the plugin.
 
 var defaults = {};
 /**
@@ -18,13 +10,9 @@ var defaults = {};
  * See: https://blog.videojs.com/feature-spotlight-advanced-plugins/
  */
 
-var Test =
-/* #__PURE__*/
-function(_Plugin) {
-  _inheritsLoose(Test, _Plugin);
-
+var ManualTest = /*#__PURE__*/function (_Plugin) {
   /**
-   * Create a Test plugin instance.
+   * Create a ManualTest plugin instance.
    *
    * @param  {Player} player
    *         A Video.js Player instance.
@@ -36,27 +24,26 @@ function(_Plugin) {
    *         second argument of options is a convenient way to accept inputs
    *         from your plugin's caller.
    */
-  function Test(player, options) {
+  function ManualTest(player, options) {
     var _this;
 
     // the parent class will add player under this.player
     _this = _Plugin.call(this, player) || this;
     _this.options = videojs.mergeOptions(defaults, options);
 
-    _this.player.ready(function() {
-      _this.player.addClass('vjs-test');
+    _this.player.ready(function () {
+      _this.player.addClass('vjs-manual-test');
     });
 
     return _this;
   }
 
-  return Test;
+  return ManualTest;
 }(Plugin); // Define default values for the plugin's `state` object here.
 
-Test.defaultState = {}; // Include the version number.
 
-Test.VERSION = version; // Register the plugin with video.js.
+ManualTest.defaultState = {}; // Include the version number.
 
-videojs.registerPlugin('test', Test);
+ManualTest.VERSION = version; // Register the plugin with video.js.
 
-export default Test;
+export default ManualTest;

@@ -1,9 +1,7 @@
-/*! @name videojs-manual-test @version 0.0.0 @license MIT */
-'use strict';
-
-var version = "0.0.0";
-
-var Plugin = {}; // Default options for the plugin.
+import _inheritsLoose from "@babel/runtime/helpers/inheritsLoose";
+import videojs from 'video.js';
+import { version as VERSION } from '../package.json';
+var Plugin = videojs.getPlugin('plugin'); // Default options for the plugin.
 
 var defaults = {};
 /**
@@ -13,6 +11,7 @@ var defaults = {};
  */
 
 var ManualTest = /*#__PURE__*/function (_Plugin) {
+  _inheritsLoose(ManualTest, _Plugin);
 
   /**
    * Create a ManualTest plugin instance.
@@ -32,7 +31,7 @@ var ManualTest = /*#__PURE__*/function (_Plugin) {
 
     // the parent class will add player under this.player
     _this = _Plugin.call(this, player) || this;
-    _this.options = videojs__default['default'].mergeOptions(defaults, options);
+    _this.options = videojs.mergeOptions(defaults, options);
 
     _this.player.ready(function () {
       _this.player.addClass('vjs-manual-test');
@@ -47,6 +46,7 @@ var ManualTest = /*#__PURE__*/function (_Plugin) {
 
 ManualTest.defaultState = {}; // Include the version number.
 
-ManualTest.VERSION = version; // Register the plugin with video.js.
+ManualTest.VERSION = VERSION; // Register the plugin with video.js.
 
-module.exports = ManualTest;
+videojs.registerPlugin('manualTest', ManualTest);
+export default ManualTest;

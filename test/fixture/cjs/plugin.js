@@ -1,9 +1,13 @@
-/*! @name videojs-manual-test @version 0.0.0 @license MIT */
-'use strict';
+"use strict";
 
-var version = "0.0.0";
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
 
-var Plugin = {}; // Default options for the plugin.
+
+var _package = require("../package.json");
+
 
 var defaults = {};
 /**
@@ -32,7 +36,7 @@ var ManualTest = /*#__PURE__*/function (_Plugin) {
 
     // the parent class will add player under this.player
     _this = _Plugin.call(this, player) || this;
-    _this.options = videojs__default['default'].mergeOptions(defaults, options);
+    _this.options = _video.default.mergeOptions(defaults, options);
 
     _this.player.ready(function () {
       _this.player.addClass('vjs-manual-test');
@@ -47,6 +51,8 @@ var ManualTest = /*#__PURE__*/function (_Plugin) {
 
 ManualTest.defaultState = {}; // Include the version number.
 
-ManualTest.VERSION = version; // Register the plugin with video.js.
+ManualTest.VERSION = _package.version; // Register the plugin with video.js.
 
-module.exports = ManualTest;
+var _default = ManualTest;
+exports.default = _default;
+module.exports = exports.default;

@@ -22,7 +22,7 @@ Maintenance Status: Stable
       - [`verbose`](#verbose)
       - [`quiet`](#quiet)
       - [`dir`](#dir)
-      - [`skipEsCheck`](#skipescheck)
+      - [`skip`](#skip)
 - [What is tested](#what-is-tested)
 - [License](#license)
 
@@ -63,7 +63,8 @@ The cli has the following options:
   -V, --verbose       Print all results, even successful ones.
   -q, --quiet         Don't print anything.
   -d, --dir [dir]     Run in this project directory, defaults to cwd.
-  --skip-es-check     Do not run es check on dist, for projects with no dist.
+  --skip-es-check     skip the syntax check, still here for backwards compatablity
+  --skip-[name]       skip a test that you do not want to run. install, syntax, fields, require
 
 ```
 
@@ -110,12 +111,12 @@ Do not print anything.
 
 Run vjsverify in a specific directory. Note that this directory must exist and contain a package.json.
 
-##### `skipEsCheck`
+##### `skip`
 
-> Type: `boolean`
-> Default: `false`
+> Type: `array`
+> Default: `[]`
 
-Skip es checking dist. Useful when the project you are working with has no dist files and source files are covered by tests.
+Skip a tests that are not relevant for your project. valid checks: `require`, `syntax`, `fields`, `install`
 
 ## What is tested
 This package tests three things:

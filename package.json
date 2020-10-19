@@ -17,7 +17,8 @@
   "dependencies": {
     "colorette": "^1.1.0",
     "es-check": "^5.0.0",
-    "pkg-can-install": "^1.0.4",
+    "exit-hook": "^2.2.0",
+    "pkg-can-install": "^2.0.0",
     "pkg-ok": "^2.3.1",
     "shelljs": "^0.8.3"
   },
@@ -26,7 +27,7 @@
     "pretest": "npm run lint",
     "test": "npm run test:unit && npm run test:verify",
     "test:unit": "ava test/index.test.js",
-    "test:verify": "./src/cli.js --skip-es-check --verbose",
+    "test:verify": "./src/cli.js --skip-syntax --verbose",
     "preversion": "npm test",
     "version": "is-prerelease || npm run update-changelog && git add CHANGELOG.md",
     "update-changelog": "conventional-changelog -p videojs -i CHANGELOG.md -s",
