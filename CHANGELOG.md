@@ -1,3 +1,15 @@
+<a name="3.0.0"></a>
+# [3.0.0](https://github.com/videojs/videojs-generator-verify/compare/v2.0.0...v3.0.0) (2020-10-19)
+
+### Features
+
+* Refactor to support a test to require and es-checking library files  ([#7](https://github.com/videojs/videojs-generator-verify/issues/7)) ([5b23af0](https://github.com/videojs/videojs-generator-verify/commit/5b23af0))
+
+
+### BREAKING CHANGES
+
+* Many new files are checked for syntax. Index file returns a new promise format.
+
 <a name="2.0.0"></a>
 # [2.0.0](https://github.com/videojs/videojs-generator-verify/compare/v1.2.0...v2.0.0) (2019-08-21)
 
