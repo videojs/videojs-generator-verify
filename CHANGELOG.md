@@ -1,3 +1,10 @@
+<a name="3.0.1"></a>
+## [3.0.1](https://github.com/videojs/videojs-generator-verify/compare/v3.0.0...v3.0.1) (2020-10-20)
+
+### Bug Fixes
+
+* require tests ([1bcf21d](https://github.com/videojs/videojs-generator-verify/commit/1bcf21d))
+
 <a name="3.0.0"></a>
 # [3.0.0](https://github.com/videojs/videojs-generator-verify/compare/v2.0.0...v3.0.0) (2020-10-19)
 
