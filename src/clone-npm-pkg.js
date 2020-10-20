@@ -1,12 +1,11 @@
 const path = require('path');
-const os = require('os');
 const crypto = require('crypto');
 const shell = require('shelljs');
 const promiseSpawn = require('./promise-spawn.js');
 const exitHook = require('exit-hook');
 
 const run = function(origdir) {
-  const tempdir = path.join(os.tmpdir(), crypto.randomBytes(20).toString('hex'));
+  const tempdir = path.join(shell.tempdir(), crypto.randomBytes(20).toString('hex'));
 
   exitHook(() => shell.rm('-rf', tempdir));
 

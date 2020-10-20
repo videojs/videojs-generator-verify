@@ -40,8 +40,10 @@ const verify = function(options) {
     return Promise.resolve(retval);
   });
 
-  return logResult(clonePkg(options.dir), 'package', 'npm pack on publish will succeed').then(function({result, tempdir}) {
-    const pkg = JSON.parse(fs.readFileSync(path.join(options.dir, 'package.json')));
+  const pkg = JSON.parse(fs.readFileSync(path.join(options.dir, 'package.json')));
+  const cache = {};
+
+  return logResult(clonePkg(options.dir, pkg, cache), 'package', 'npm pack on publish will succeed').then(function({result, tempdir}) {
     const promises = Object.keys(tests).map(function(key) {
       let {text, fn} = tests[key];
 
@@ -54,14 +56,14 @@ const verify = function(options) {
         fn = () => generateSkip('skipped by options');
       }
 
-      return logResult(fn(tempdir, pkg), key, text);
+      return logResult(fn(tempdir, pkg, cache), key, text);
     });
 
     return Promise.all(promises);
   }).then(function(results) {
     return Promise.resolve(!results.some((r) => r.result === 'fail') ? 0 : 1);
   }).catch(function(e) {
-    error('vjsverify: An internal error occurred', e);
+    error('vjsverify: An internal error occurred', e.stack);
     return Promise.resolve(1);
   });
 };

@@ -15,23 +15,20 @@
   "author": "Brandon Casey <brandonocasey@gmail.com>",
   "license": "Apache-2.0",
   "dependencies": {
-    "colorette": "^1.1.0",
-    "es-check": "^5.0.0",
+    "colorette": "^1.2.1",
+    "es-check": "^5.1.1",
     "exit-hook": "^2.2.0",
-    "pkg-can-install": "^2.0.0",
-    "pkg-ok": "^2.3.1",
-    "shelljs": "^0.8.3"
+    "shelljs": "^0.8.4"
   },
   "scripts": {
     "lint": "vjsstandard",
     "pretest": "npm run lint",
-    "test": "npm run test:unit && npm run test:verify",
-    "test:unit": "ava test/index.test.js",
-    "test:verify": "./src/cli.js --skip-syntax --verbose",
+    "test": "npm run test:unit",
+    "test:unit": "ava test/*.test.js",
     "preversion": "npm test",
     "version": "is-prerelease || npm run update-changelog && git add CHANGELOG.md",
     "update-changelog": "conventional-changelog -p videojs -i CHANGELOG.md -s",
-    "prepublishOnly": "npm run test:verify"
+    "prepublishOnly": "./src/cli.js --skip-syntax --verbose"
   },
   "lint-staged": {
     "*.js": [
@@ -53,8 +50,8 @@
   },
   "devDependencies": {
     "@videojs/generator-helpers": "~1.2.0",
-    "ava": "^2.3.0",
-    "videojs-standard": "^8.0.3"
+    "ava": "^3.13.0",
+    "videojs-standard": "^8.0.4"
   },
   "husky": {
     "hooks": {

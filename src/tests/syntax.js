@@ -1,44 +1,11 @@
 const crypto = require('crypto');
 const path = require('path');
 const shell = require('shelljs');
-const promiseSpawn = require('./promise-spawn.js');
+const promiseSpawn = require('../promise-spawn.js');
 const esCheck = require.resolve('es-check');
 const exitHook = require('exit-hook');
 const fs = require('fs');
-
-const cjsFields = ['bin', 'main', 'browser'];
-const esFields = ['es2015', 'module'];
-const getFieldFiles = function(cwd, pkg, fields) {
-  // only store unique entires
-  const files = new Set();
-
-  const addIfExists = (file) => {
-    file = path.resolve(cwd, file);
-
-    if (shell.test('-f', file)) {
-      files.add(file);
-    }
-  };
-
-  fields.forEach(function(field) {
-    if (Array.isArray(pkg[field])) {
-      pkg.field.forEach(addIfExists);
-      return;
-    }
-
-    if (typeof pkg[field] === 'object') {
-      Object.keys(pkg[field]).forEach((key) => addIfExists(pkg[field][key]));
-      return;
-    }
-
-    if (typeof pkg[field] === 'string') {
-      addIfExists(pkg[field]);
-      return;
-    }
-  });
-
-  return files;
-};
+const {cjsFields, esFields, getFieldFiles} = require('../pkg-field-helpers.js');
 
 const gatherFiles = function(cwd) {
   const distDir = path.join(cwd, 'dist');
@@ -49,7 +16,13 @@ const gatherFiles = function(cwd) {
     const files = new Set();
 
     // pkg.json cjs files
-    getFieldFiles(cwd, pkg, cjsFields).forEach(files.add, files);
+    getFieldFiles(pkg, cjsFields).forEach((file) => {
+      const filepath = path.join(cwd, file);
+
+      if (shell.test('-f', filepath)) {
+        files.add(filepath);
+      }
+    });
 
     // lang
     shell.ls(path.join(distDir, 'lang', '*.js')).forEach(files.add, files);
@@ -63,7 +36,13 @@ const gatherFiles = function(cwd) {
     const esFiles = new Set();
 
     // pkg.json es files
-    getFieldFiles(cwd, pkg, esFields).forEach(esFiles.add, esFiles);
+    getFieldFiles(pkg, esFields).forEach((file) => {
+      const filepath = path.join(cwd, file);
+
+      if (shell.test('-f', filepath)) {
+        esFiles.add(filepath);
+      }
+    });
 
     // es library files
     shell.ls(path.join(cwd, 'es', '**', '*.js')).forEach(esFiles.add, esFiles);
@@ -110,18 +89,21 @@ const gatherFiles = function(cwd) {
     });
   });
 };
-const runEsCheck = function(tempdir, pkg) {
+const runEsCheck = function(tempdir, pkg, cache) {
   return gatherFiles(tempdir).then(function(files) {
     if (!files.length) {
-      return Promise.resolve({result: 'fail', info: 'did not find any files to check'});
-    }
-    return promiseSpawn(esCheck, ['es5', '--verbose', '--module', '--allow-hash-bang'].concat(files), {cwd: tempdir});
-  }).then(function(result) {
-    if (result.status === 0) {
-      return Promise.resolve({result: 'pass'});
+      return Promise.resolve({result: 'skip', info: 'did not find any files to check'});
     }
 
-    return Promise.resolve({result: 'fail', info: `\n${result.out}`.split(tempdir).join('')});
+    const args = ['es5', '--verbose', '--allow-hash-bang'].concat(files);
+
+    return promiseSpawn(esCheck, args, {cwd: tempdir}).then(function(result) {
+      if (result.status === 0) {
+        return Promise.resolve({result: 'pass'});
+      }
+
+      return Promise.resolve({result: 'fail', info: `\n${result.out}`.split(tempdir).join('')});
+    });
   });
 };
 

@@ -5,13 +5,7 @@ const verify = require('./index.js');
 const pkg = require('../package.json');
 const testNames = Object.keys(require('./tests.js'));
 
-const options = {
-  verbose: false,
-  quiet: false,
-  dir: process.cwd()
-};
-
-const printHelp = function() {
+const printHelp = function(console) {
   console.log();
   console.log('  Usage: vjsverify [--verbose|--quiet|--skip-es-check]');
   console.log();
@@ -26,37 +20,55 @@ const printHelp = function() {
   console.log();
 };
 
-// only takes one argument
-for (let i = 0; i < process.argv.length; i++) {
-  if ((/^-h|--help$/).test(process.argv[i])) {
-    printHelp();
-    process.exit();
-  } else if ((/^-v|--version$/).test(process.argv[i])) {
-    console.log(pkg.version);
-    process.exit();
-  } else if ((/^-V|--verbose$/).test(process.argv[i])) {
-    options.verbose = true;
-  } else if ((/^-q|--quiet$/).test(process.argv[i])) {
-    options.quiet = true;
-  } else if ((/^--skip-es-check$/).test(process.argv[i])) {
-    options.skip = options.skip || [];
-    options.skip.push('syntax');
-  } else if ((/^--skip-/).test(process.argv[i])) {
-    const testName = process.argv[i].replace('--skip-', '');
+const cli = function(args, console, exit) {
+  const options = {
+    verbose: false,
+    quiet: false,
+    dir: process.cwd()
+  };
 
-    if (testNames.indexOf(testName) === -1) {
-      console.error(`${testName} is not a valid test to skip!`);
-      process.exit(1);
+  // only takes one argument
+  for (let i = 0; i < args.length; i++) {
+    if ((/^-h|--help$/).test(args[i])) {
+      printHelp(console);
+      return exit();
+    } else if ((/^-v|--version$/).test(args[i])) {
+      console.log(pkg.version);
+      return exit();
+    } else if ((/^-V|--verbose$/).test(args[i])) {
+      options.verbose = true;
+    } else if ((/^-q|--quiet$/).test(args[i])) {
+      options.quiet = true;
+    } else if ((/^--skip-es-check$/).test(args[i])) {
+      options.skip = options.skip || [];
+      options.skip.push('syntax');
+    } else if ((/^--skip-/).test(args[i])) {
+      const testName = args[i].replace('--skip-', '');
+
+      if (testNames.indexOf(testName) === -1) {
+        console.error(`${testName} is not a valid test to skip!`);
+        return exit(1);
+      }
+
+      options.skip = options.skip || [];
+      options.skip.push(testName);
+    } else if ((/^-d|--dir$/).test(args[i])) {
+      i++;
+      options.dir = args[i];
     }
-
-    options.skip = options.skip || [];
-    options.skip.push(testName);
-  } else if ((/^-d|--dir$/).test(process.argv[i])) {
-    i++;
-    options.dir = process.argv[i];
   }
-}
 
-verify(options).then(function(exitCode) {
-  process.exit(exitCode);
-});
+  return options;
+};
+
+module.exports = {cli, printHelp};
+
+// The code below will only run when working as an executable
+// that way we can test the cli using require in unit tests.
+if (require.main === module) {
+  const options = cli(process.argv.slice(2), console, process.exit);
+
+  verify(options).then(function(exitCode) {
+    process.exit(exitCode);
+  });
+}

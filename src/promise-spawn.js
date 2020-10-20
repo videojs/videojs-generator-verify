@@ -3,7 +3,7 @@ const exitHook = require('exit-hook');
 
 const promiseSpawn = function(bin, args, options = {}) {
   return new Promise((resolve, reject) => {
-    const child = spawn(bin, args, options);
+    const child = spawn(bin, args, Object.assign({}, options, {env: {PATH: process.env.PATH}}));
 
     let stdout = '';
     let stderr = '';
@@ -21,7 +21,7 @@ const promiseSpawn = function(bin, args, options = {}) {
 
     const removeHook = exitHook(() => child.kill());
 
-    child.on('exit', function(status) {
+    child.on('close', function(status) {
       removeHook();
       resolve({
         status,
