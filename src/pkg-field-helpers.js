@@ -1,6 +1,6 @@
-const cjsFields = ['bin', 'main', 'browser'];
+const cjsFields = ['main', 'browser'];
 const esFields = ['es2015', 'module'];
-const allFields = [].concat(cjsFields).concat(esFields);
+const allFields = ['bin'].concat(cjsFields).concat(esFields);
 
 const getFieldFiles = function(pkg, fields) {
   // only store unique entires

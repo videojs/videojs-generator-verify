@@ -49,14 +49,14 @@ test('fails if browser has incorrect syntax', (t) => {
   });
 });
 
-test('fails if bin has incorrect syntax', (t) => {
+test('does not fail if bin has incorrect syntax', (t) => {
   const bins = t.context.pkg.bin;
   const binFile = bins[Object.keys(bins)[0]];
 
   shell.cp('-f', path.join(t.context.dir, 'es6.js'), path.join(t.context.dir, binFile));
   return syntaxCheck(t.context.dir, t.context.pkg).then(function(r) {
     t.not(r.info, '', 'has info');
-    t.is(r.result, 'fail', 'failed');
+    t.is(r.result, 'pass', 'pass');
   });
 });
 
