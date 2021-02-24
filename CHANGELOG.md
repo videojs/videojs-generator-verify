@@ -1,3 +1,10 @@
+<a name="3.0.2"></a>
+## [3.0.2](https://github.com/videojs/videojs-generator-verify/compare/v3.0.1...v3.0.2) (2021-02-24)
+
+### Bug Fixes
+
+* do not check bin syntax ([15d4866](https://github.com/videojs/videojs-generator-verify/commit/15d4866))
+
 <a name="3.0.1"></a>
 ## [3.0.1](https://github.com/videojs/videojs-generator-verify/compare/v3.0.0...v3.0.1) (2020-10-20)
 
