@@ -1,3 +1,10 @@
+<a name="3.0.3"></a>
+## [3.0.3](https://github.com/videojs/videojs-generator-verify/compare/v3.0.2...v3.0.3) (2021-03-26)
+
+### Bug Fixes
+
+* skip syntax check on es library dist files ([20d011d](https://github.com/videojs/videojs-generator-verify/commit/20d011d))
+
 <a name="3.0.2"></a>
 ## [3.0.2](https://github.com/videojs/videojs-generator-verify/compare/v3.0.1...v3.0.2) (2021-02-24)
 
