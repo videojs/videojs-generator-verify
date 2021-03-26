@@ -44,8 +44,10 @@ const gatherFiles = function(cwd) {
       }
     });
 
-    // es library files
-    shell.ls(path.join(cwd, 'es', '**', '*.js')).forEach(esFiles.add, esFiles);
+    const skipFiles = new Set();
+
+    // skip es library files
+    shell.ls(path.join(cwd, 'es', '**', '*.js')).forEach(skipFiles.add, skipFiles);
 
     // es rollup files
     shell.ls(path.join(distDir, '*.es.js')).forEach(esFiles.add, esFiles);
@@ -59,6 +61,9 @@ const gatherFiles = function(cwd) {
     exitHook(() => shell.rm('-rf', tempdir));
 
     esFiles.forEach(function(file) {
+      if (skipFiles.has(file)) {
+        return;
+      }
       const promise = Promise.resolve().then(function() {
         const destFile = path.join(tempdir, path.relative(cwd, file));
 

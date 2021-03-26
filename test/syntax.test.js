@@ -76,10 +76,10 @@ test('fails if cjs dir has incorrect syntax', (t) => {
   });
 });
 
-test('fails if es dir has incorrect syntax', (t) => {
+test('does not fail if es dir has incorrect syntax', (t) => {
   shell.cp('-f', path.join(t.context.dir, 'es6.js'), path.join(t.context.dir, 'es', 'foo.js'));
   return syntaxCheck(t.context.dir, t.context.pkg).then(function(r) {
     t.not(r.info, '', 'has info');
-    t.is(r.result, 'fail', 'failed');
+    t.is(r.result, 'pass', 'pass');
   });
 });
