@@ -1,3 +1,15 @@
+<a name="4.0.0"></a>
+# [4.0.0](https://github.com/videojs/videojs-generator-verify/compare/v3.0.3...v4.0.0) (2021-05-28)
+
+### Chores
+
+* node 14 support ([#8](https://github.com/videojs/videojs-generator-verify/issues/8)) ([2521f95](https://github.com/videojs/videojs-generator-verify/commit/2521f95))
+
+
+### BREAKING CHANGES
+
+* this project requires a minimum of node 14 now
+
 <a name="3.0.3"></a>
 ## [3.0.3](https://github.com/videojs/videojs-generator-verify/compare/v3.0.2...v3.0.3) (2021-03-26)
 
