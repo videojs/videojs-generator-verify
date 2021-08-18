@@ -1,3 +1,10 @@
+<a name="4.0.1"></a>
+## [4.0.1](https://github.com/videojs/videojs-generator-verify/compare/v4.0.0...v4.0.1) (2021-08-18)
+
+### Chores
+
+* switch to shared [@brandonocasey](https://github.com/brandonocasey)/spawn-promise package ([1fef5a7](https://github.com/videojs/videojs-generator-verify/commit/1fef5a7))
+
 <a name="4.0.0"></a>
 # [4.0.0](https://github.com/videojs/videojs-generator-verify/compare/v3.0.3...v4.0.0) (2021-05-28)
 
