@@ -25,7 +25,7 @@
     "lint": "vjsstandard",
     "pretest": "npm run lint",
     "test": "npm run test:unit",
-    "test:unit": "ava test/*.test.js",
+    "test:unit": "ava test/*.test.js -s",
     "preversion": "npm test",
     "version": "is-prerelease || npm run update-changelog && git add CHANGELOG.md",
     "update-changelog": "conventional-changelog -p videojs -i CHANGELOG.md -s",
