@@ -16,9 +16,9 @@
   "license": "Apache-2.0",
   "dependencies": {
     "@brandonocasey/spawn-promise": "~0.2.0",
-    "colorette": "^1.2.2",
-    "es-check": "^5.2.3",
-    "exit-hook": "^2.2.1",
+    "colorette": "^2.0.16",
+    "es-check": "^6.1.1",
+    "exit-hook": "^3.0.0",
     "shelljs": "^0.8.4"
   },
   "scripts": {
@@ -44,9 +44,9 @@
     ]
   },
   "devDependencies": {
-    "@videojs/generator-helpers": "~3.0.0",
+    "@videojs/generator-helpers": "~3.1.1",
     "ava": "^3.15.0",
-    "videojs-standard": "^8.0.4"
+    "videojs-standard": "^9.0.1"
   },
   "husky": {
     "hooks": {
