@@ -18,7 +18,7 @@
     "@brandonocasey/spawn-promise": "~0.2.0",
     "colorette": "^2.0.16",
     "es-check": "^6.1.1",
-    "exit-hook": "^3.0.0",
+    "exit-hook": "^2.2.1",
     "shelljs": "^0.8.4"
   },
   "scripts": {
