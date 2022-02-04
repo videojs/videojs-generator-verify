@@ -12,6 +12,16 @@ test('can succeed', (t) => {
   });
 });
 
+test('can succeed with a scoped package', (t) => {
+  t.context.pkg.name = '@scope/foo';
+
+  fs.writeFileSync(path.join(t.context.dir, 'package.json'), JSON.stringify(t.context.pkg));
+
+  return canInstall(t.context.dir, t.context.pkg).then(function(r) {
+    t.is(r.result, 'pass', 'passed');
+  });
+});
+
 test('fails if dependency does not exist', (t) => {
   const name = 'a-package-with-such-a-long-name-it-should-not-exist';
 
