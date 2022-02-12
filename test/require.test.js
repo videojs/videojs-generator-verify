@@ -14,9 +14,7 @@ test('can succeed', (t) => {
 
 test('succeeds when peerDependencies are required', (t) => {
   t.context.pkg.peerDependencies = { dummy: 'file:' + path.resolve('./test/testpkg') };
-  t.context.pkg.main = './bar.js';
-
-  console.log(t.context.pkg.peerDependencies); // eslint-disable-line no-console
+  t.context.pkg.main = './baz.js';
 
   fs.writeFileSync(path.join(t.context.dir, 'package.json'), JSON.stringify(t.context.pkg));
 
