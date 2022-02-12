@@ -25,7 +25,7 @@ const packInstall = function(pkgdir) {
       license: 'ISC',
       dependencies: require(`${pkgdir}/package.json`).peerDependencies || {}
     }));
-    return promiseSpawn('npm', ['i', '--json'], {cwd}).then(function(output) {
+    return promiseSpawn('npm', ['i', '--prefer-offline', '--json'], {cwd}).then(function(output) {
       if (output.status !== 0) {
         return Promise.reject(`npm install failed:\n${output.out}`);
       }
