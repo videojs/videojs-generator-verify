@@ -22,28 +22,34 @@ const packInstall = function(pkgdir) {
       },
       keywords: [],
       author: '',
-      license: 'ISC'
+      license: 'ISC',
+      dependencies: require(`${pkgdir}/package.json`).peerDependencies || {}
     }));
-    return promiseSpawn('npm', ['pack', pkgdir, '--json'], {cwd}).then(function(pack) {
-      if (pack.status !== 0) {
-        return Promise.reject(`npm pack failed:\n${pack.out}`);
+    return promiseSpawn('npm', ['i', '--prefer-offline', '--json'], {cwd}).then(function(output) {
+      if (output.status !== 0) {
+        return Promise.reject(`npm install failed:\n${output.out}`);
       }
-      const tarball = JSON.parse(pack.stdout)[0].filename;
-
-      return promiseSpawn('npm', [
-        'i',
-        '--prefer-offline',
-        '--production',
-        '--no-audit',
-        '--progress=false',
-        path.join(cwd, tarball)
-      ], {cwd}).then(function(install) {
-        if (install.status !== 0) {
-          return Promise.reject(`npm install failed on packed tarball:\n${install.out}`);
+      return promiseSpawn('npm', ['pack', pkgdir, '--json'], {cwd}).then(function(pack) {
+        if (pack.status !== 0) {
+          return Promise.reject(`npm pack failed:\n${pack.out}`);
         }
-        shell.rm('-f', tarball);
+        const tarball = JSON.parse(pack.stdout)[0].filename;
 
-        return Promise.resolve(cwd);
+        return promiseSpawn('npm', [
+          'i',
+          '--prefer-offline',
+          '--production',
+          '--no-audit',
+          '--progress=false',
+          path.join(cwd, tarball)
+        ], {cwd}).then(function(install) {
+          if (install.status !== 0) {
+            return Promise.reject(`npm install failed on packed tarball:\n${install.out}`);
+          }
+          shell.rm('-f', tarball);
+
+          return Promise.resolve(cwd);
+        });
       });
     });
   });

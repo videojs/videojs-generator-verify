@@ -12,6 +12,17 @@ test('can succeed', (t) => {
   });
 });
 
+test('succeeds when peerDependencies are required', (t) => {
+  t.context.pkg.peerDependencies = { dummy: 'file:' + path.resolve('./test/testpkg') };
+  t.context.pkg.main = './baz.js';
+
+  fs.writeFileSync(path.join(t.context.dir, 'package.json'), JSON.stringify(t.context.pkg));
+
+  return canRequire(t.context.dir, t.context.pkg).then(function(r) {
+    t.is(r.result, 'pass', 'success');
+  });
+});
+
 test('skipped if pkg has no main', (t) => {
   delete t.context.pkg.main;
   return canRequire(t.context.dir, t.context.pkg).then(function(r) {
