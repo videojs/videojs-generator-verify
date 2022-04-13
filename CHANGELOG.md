@@ -1,3 +1,14 @@
+<a name="4.1.0"></a>
+# [4.1.0](https://github.com/videojs/videojs-generator-verify/compare/v4.0.1...v4.1.0) (2022-04-13)
+
+### Features
+
+* Install plugin's peerDependencies when testing install ([300f007](https://github.com/videojs/videojs-generator-verify/commit/300f007))
+
+### Tests
+
+* run tests serially to prevent timeouts ([#11](https://github.com/videojs/videojs-generator-verify/issues/11)) ([0581184](https://github.com/videojs/videojs-generator-verify/commit/0581184))
+
 <a name="4.0.1"></a>
 ## [4.0.1](https://github.com/videojs/videojs-generator-verify/compare/v4.0.0...v4.0.1) (2021-08-18)
 
