@@ -1,3 +1,10 @@
+<a name="4.1.1"></a>
+## [4.1.1](https://github.com/videojs/videojs-generator-verify/compare/v4.1.0...v4.1.1) (2023-07-21)
+
+### Chores
+
+* **package:** update dependencies ([#13](https://github.com/videojs/videojs-generator-verify/issues/13)) ([c6636f9](https://github.com/videojs/videojs-generator-verify/commit/c6636f9))
+
 <a name="4.1.0"></a>
 # [4.1.0](https://github.com/videojs/videojs-generator-verify/compare/v4.0.1...v4.1.0) (2022-04-13)
 
