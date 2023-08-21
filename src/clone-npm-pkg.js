@@ -15,7 +15,11 @@ const run = function(origdir) {
     if (result.status !== 0) {
       return Promise.resolve({result: 'fail', info: `\n${result.out}`});
     }
-    const packOutput = JSON.parse(result.stdout);
+
+    const jsonRegex = /\[(.|\n)*\]$/;
+    const jsonString = (result.stdout).match(jsonRegex)[0];
+
+    const packOutput = JSON.parse(jsonString);
 
     return Promise.all(packOutput.map((output) => {
       return Promise.all(output.files.map((file) => Promise.resolve().then(function() {

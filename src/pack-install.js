@@ -33,7 +33,9 @@ const packInstall = function(pkgdir) {
         if (pack.status !== 0) {
           return Promise.reject(`npm pack failed:\n${pack.out}`);
         }
-        const tarball = JSON.parse(pack.stdout)[0].filename;
+        const jsonRegex = /\[(.|\n)*\]$/;
+        const jsonString = (pack.stdout).match(jsonRegex)[0];
+        const tarball = JSON.parse(jsonString)[0].filename;
 
         return promiseSpawn('npm', [
           'i',
