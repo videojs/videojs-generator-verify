@@ -16,7 +16,6 @@ const run = function(origdir) {
     if (result.status !== 0) {
       return Promise.resolve({result: 'fail', info: `\n${result.out}`});
     }
-
     const packOutput = getParsedJsonFromOutput(result.stdout);
 
     return Promise.all(packOutput.map((output) => {
