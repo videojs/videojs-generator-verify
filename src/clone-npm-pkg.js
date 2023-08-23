@@ -3,6 +3,7 @@ const crypto = require('crypto');
 const shell = require('shelljs');
 const promiseSpawn = require('./promise-spawn.js');
 const exitHook = require('exit-hook');
+const {getParsedJsonFromOutput} = require('./utils');
 
 const run = function(origdir) {
   const tempdir = path.join(shell.tempdir(), crypto.randomBytes(20).toString('hex'));
@@ -15,7 +16,7 @@ const run = function(origdir) {
     if (result.status !== 0) {
       return Promise.resolve({result: 'fail', info: `\n${result.out}`});
     }
-    const packOutput = JSON.parse(result.stdout);
+    const packOutput = getParsedJsonFromOutput(result.stdout);
 
     return Promise.all(packOutput.map((output) => {
       return Promise.all(output.files.map((file) => Promise.resolve().then(function() {

@@ -4,6 +4,7 @@ const promiseSpawn = require('./promise-spawn.js');
 const exitHook = require('exit-hook');
 const shell = require('shelljs');
 const fs = require('fs');
+const {getParsedJsonFromOutput} = require('./utils');
 
 const packInstall = function(pkgdir) {
   return Promise.resolve().then(function() {
@@ -33,7 +34,7 @@ const packInstall = function(pkgdir) {
         if (pack.status !== 0) {
           return Promise.reject(`npm pack failed:\n${pack.out}`);
         }
-        const tarball = JSON.parse(pack.stdout)[0].filename;
+        const tarball = getParsedJsonFromOutput(pack.stdout)[0].filename;
 
         return promiseSpawn('npm', [
           'i',
