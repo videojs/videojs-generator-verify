@@ -4,7 +4,7 @@ const promiseSpawn = require('./promise-spawn.js');
 const exitHook = require('exit-hook');
 const shell = require('shelljs');
 const fs = require('fs');
-const getParsedJsonFromOutput = require('./utils');
+const { getParsedJsonFromOutput } = require('./utils');
 
 const packInstall = function(pkgdir) {
   return Promise.resolve().then(function() {

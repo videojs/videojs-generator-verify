@@ -10,4 +10,4 @@ const getParsedJsonFromOutput = function(stdout) {
   }
 };
 
-module.exports = getParsedJsonFromOutput;
+module.exports = {getParsedJsonFromOutput};

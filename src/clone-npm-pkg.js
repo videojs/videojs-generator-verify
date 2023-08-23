@@ -3,7 +3,7 @@ const crypto = require('crypto');
 const shell = require('shelljs');
 const promiseSpawn = require('./promise-spawn.js');
 const exitHook = require('exit-hook');
-const getParsedJsonFromOutput = require('./utils');
+const {getParsedJsonFromOutput} = require('./utils');
 
 const run = function(origdir) {
   const tempdir = path.join(shell.tempdir(), crypto.randomBytes(20).toString('hex'));
