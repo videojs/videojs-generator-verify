@@ -1,3 +1,10 @@
+<a name="4.1.2"></a>
+## [4.1.2](https://github.com/videojs/videojs-generator-verify/compare/v4.1.1...v4.1.2) (2023-08-23)
+
+### Bug Fixes
+
+* extract JSON from non-JSON strings ([#14](https://github.com/videojs/videojs-generator-verify/issues/14)) ([ba3fe30](https://github.com/videojs/videojs-generator-verify/commit/ba3fe30))
+
 <a name="4.1.1"></a>
 ## [4.1.1](https://github.com/videojs/videojs-generator-verify/compare/v4.1.0...v4.1.1) (2023-07-21)
 
