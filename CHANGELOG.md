@@ -1,3 +1,10 @@
+<a name="4.1.3"></a>
+## [4.1.3](https://github.com/videojs/videojs-generator-verify/compare/v4.1.2...v4.1.3) (2023-09-26)
+
+### Chores
+
+* add workaround to fix npm pack issue ([#15](https://github.com/videojs/videojs-generator-verify/issues/15)) ([7de9611](https://github.com/videojs/videojs-generator-verify/commit/7de9611))
+
 <a name="4.1.2"></a>
 ## [4.1.2](https://github.com/videojs/videojs-generator-verify/compare/v4.1.1...v4.1.2) (2023-08-23)
 
