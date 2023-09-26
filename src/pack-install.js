@@ -34,7 +34,15 @@ const packInstall = function(pkgdir) {
         if (pack.status !== 0) {
           return Promise.reject(`npm pack failed:\n${pack.out}`);
         }
-        const tarball = getParsedJsonFromOutput(pack.stdout)[0].filename;
+
+        let tarball = getParsedJsonFromOutput(pack.stdout)[0].filename;
+
+        if (tarball.startsWith('@')) {
+          // This is a scoped package. Workaround for npm issue: https://github.com/npm/cli/pull/5894
+          tarball = tarball
+            .replace('@', '')
+            .replace('/', '-');
+        }
 
         return promiseSpawn('npm', [
           'i',
